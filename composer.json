@@ -1,4 +1,16 @@
 {
+    "name": "orangesoft/fuzzy-search",
+    "description": "Fuzzy string search",
+    "keywords": ["fuzzy", "search", "levenshtein", "damerau-levenshtein", "jaro", "jaro-winkler", "similar-text"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Aleksandr Denisyuk",
+            "email": "a@denisyuk.by",
+            "homepage": "https://denisyuk.by/",
+            "role": "Developer"
+        }
+    ],
     "require": {
         "php": "^8.1"
     },
