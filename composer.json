@@ -10,11 +10,13 @@
             "Orangesoft\\FuzzySearch\\": "src/"
         }
     },
-
     "autoload-dev": {
         "psr-4": {
             "Orangesoft\\FuzzySearch\\Tests\\": "tests/"
         }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit --colors=always"
     },
     "config": {
         "sort-packages": true
