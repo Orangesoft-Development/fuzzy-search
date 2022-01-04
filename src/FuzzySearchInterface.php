@@ -13,5 +13,5 @@ interface FuzzySearchInterface
      *
      * @return Suggestion[]
      */
-    public function search(string $needle, iterable $haystack, callable $accessor = null): array;
+    public function search(string $needle, iterable $haystack, ?callable $accessor = null): array;
 }
