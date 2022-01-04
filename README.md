@@ -64,7 +64,7 @@ $suggestions = $fuzzySearch->search(
 );
 ```
 
-Accessor must return string, but you can get original element of the iterator in [Suggestion](src/Suggestion.php).
+Accessor must return string, and also you can get original element of the iterator in [Suggestion](src/Suggestion.php).
 
 ## Benchmarks
 
