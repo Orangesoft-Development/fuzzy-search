@@ -15,6 +15,7 @@
         "php": "^8.1"
     },
     "require-dev": {
+        "phpbench/phpbench": "^1.2",
         "phpunit/phpunit": "^9.5"
     },
     "autoload": {
@@ -24,11 +25,13 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Orangesoft\\FuzzySearch\\Tests\\": "tests/"
+            "Orangesoft\\FuzzySearch\\Tests\\": "tests/",
+            "Orangesoft\\FuzzySearch\\Benchmarks\\": "benchmarks/"
         }
     },
     "scripts": {
-        "test": "vendor/bin/phpunit --colors=always"
+        "test": "vendor/bin/phpunit --colors=always",
+        "bench": "vendor/bin/phpbench run --report=fuzzy-search --ansi"
     },
     "config": {
         "sort-packages": true
