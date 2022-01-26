@@ -6,7 +6,7 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/orangesoft/fuzzy-search?style=plastic)](https://packagist.org/packages/orangesoft/fuzzy-search)
 [![License](https://img.shields.io/packagist/l/orangesoft/fuzzy-search?style=plastic&color=428F7E)](https://packagist.org/packages/orangesoft/fuzzy-search)
 
-Fuzzy string search.
+Fuzzy string search with unicode support.
 
 ## Installation
 

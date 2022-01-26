@@ -4,12 +4,28 @@ declare(strict_types=1);
 
 namespace Orangesoft\FuzzySearch;
 
+use function Symfony\Component\String\u;
+
 final class Jaro implements AlgorithmInterface
 {
+    /**
+     * @param string[]|\Transliterator[]|\Closure[] $asciiUnicodeRules
+     */
+    public function __construct(
+        private array $asciiUnicodeRules = [],
+    ) {
+    }
+
     public function similar(string $a, string $b): float
     {
-        $aLength = strlen($a);
-        $bLength = strlen($b);
+        $a = u($a)->ascii($this->asciiUnicodeRules);
+        $b = u($b)->ascii($this->asciiUnicodeRules);
+
+        $aAsciiString = $a->toString();
+        $bAsciiString = $b->toString();
+
+        $aLength = $a->length();
+        $bLength = $b->length();
 
         $distance = max($aLength, $bLength) / 2 - 1;
 
@@ -30,7 +46,7 @@ final class Jaro implements AlgorithmInterface
                     continue;
                 }
 
-                if ($a[$i] !== $b[$k]) {
+                if ($aAsciiString[$i] !== $bAsciiString[$k]) {
                     continue;
                 }
 
@@ -58,7 +74,7 @@ final class Jaro implements AlgorithmInterface
                 $k++;
             }
 
-            if ($a[$i] !== $b[$k]) {
+            if ($aAsciiString[$i] !== $bAsciiString[$k]) {
                 $transpositions++;
             }
 

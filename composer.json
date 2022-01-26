@@ -1,7 +1,7 @@
 {
     "name": "orangesoft/fuzzy-search",
     "description": "Fuzzy string search",
-    "keywords": ["fuzzy", "search", "levenshtein", "damerau-levenshtein", "jaro", "jaro-winkler", "similar-text"],
+    "keywords": ["fuzzy", "search", "levenshtein", "damerau-levenshtein", "jaro", "jaro-winkler", "similar-text", "unicode"],
     "license": "MIT",
     "authors": [
         {
@@ -12,7 +12,9 @@
         }
     ],
     "require": {
-        "php": "^8.1"
+        "php": "^8.1",
+        "ext-intl": "*",
+        "symfony/string": "^6.0"
     },
     "require-dev": {
         "phpbench/phpbench": "^1.2",

@@ -4,21 +4,33 @@ declare(strict_types=1);
 
 namespace Orangesoft\FuzzySearch;
 
+use function Symfony\Component\String\u;
+
 final class JaroWinkler implements AlgorithmInterface
 {
     private Jaro $jaro;
 
-    public function __construct()
-    {
-        $this->jaro = new Jaro();
+    /**
+     * @param string[]|\Transliterator[]|\Closure[] $asciiUnicodeRules
+     */
+    public function __construct(
+        private array $asciiUnicodeRules = [],
+    ) {
+        $this->jaro = new Jaro($this->asciiUnicodeRules);
     }
 
     public function similar(string $a, string $b): float
     {
-        $similarity = $this->jaro->similar($a, $b);
+        $a = u($a)->ascii($this->asciiUnicodeRules);
+        $b = u($b)->ascii($this->asciiUnicodeRules);
 
-        $aLength = strlen($a);
-        $bLength = strlen($b);
+        $aAsciiString = $a->toString();
+        $bAsciiString = $b->toString();
+
+        $aLength = $a->length();
+        $bLength = $b->length();
+
+        $similarity = $this->jaro->similar($aAsciiString, $bAsciiString);
 
         $min = min($aLength, $bLength);
         $max = max($aLength, $bLength);
@@ -26,7 +38,7 @@ final class JaroWinkler implements AlgorithmInterface
         $lengthOfCommonPrefix = 0;
 
         for ($i = 0; $i < $min; $i++) {
-            if ($a[$i] === $b[$i]) {
+            if ($aAsciiString[$i] === $bAsciiString[$i]) {
                 $lengthOfCommonPrefix++;
             } else {
                 break;
