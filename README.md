@@ -38,13 +38,7 @@ $fuzzySearch = new FuzzySearch(
 /** @var Suggestion[] $suggestions */
 $suggestions = $fuzzySearch->search('carrrot', [
     'apple',
-    'pineapple',
-    'banana',
-    'orange',
-    'radish',
     'carrot',
-    'pea',
-    'bean',
     'potato',
 ]);
 ```
@@ -66,21 +60,7 @@ $suggestions = $fuzzySearch->search(
 
 Accessor must return string, and also you can get original element of the iterator in [Suggestion](src/Suggestion.php).
 
-## Benchmarks
-
-Run `composer bench` to check out benchmarks:
-
-```text
-+-------------------------+------+-----+----------+----------+----------+---------+
-| benchmark               | revs | its | mean     | best     | worst    | stdev   |
-+-------------------------+------+-----+----------+----------+----------+---------+
-| JaroBench               | 1000 | 5   | 4.287μs  | 4.074μs  | 4.658μs  | 0.201μs |
-| JaroWinklerBench        | 1000 | 5   | 5.254μs  | 4.831μs  | 5.754μs  | 0.349μs |
-| LevenshteinBench        | 1000 | 5   | 0.963μs  | 0.882μs  | 1.099μs  | 0.080μs |
-| DamerauLevenshteinBench | 1000 | 5   | 21.544μs | 18.734μs | 24.855μs | 2.464μs |
-| SimilarTextBench        | 1000 | 5   | 0.633μs  | 0.303μs  | 0.916μs  | 0.243μs |
-+-------------------------+------+-----+----------+----------+----------+---------+
-```
+## Available algorithms
 
 The following algorithms are available:
 
