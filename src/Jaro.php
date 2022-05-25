@@ -4,28 +4,12 @@ declare(strict_types=1);
 
 namespace Orangesoft\FuzzySearch;
 
-use function Symfony\Component\String\u;
-
 final class Jaro implements AlgorithmInterface
 {
-    /**
-     * @param string[]|\Transliterator[]|\Closure[] $asciiUnicodeRules
-     */
-    public function __construct(
-        private array $asciiUnicodeRules = [],
-    ) {
-    }
-
     public function similar(string $a, string $b): float
     {
-        $a = u($a)->ascii($this->asciiUnicodeRules);
-        $b = u($b)->ascii($this->asciiUnicodeRules);
-
-        $aAsciiString = $a->toString();
-        $bAsciiString = $b->toString();
-
-        $aLength = $a->length();
-        $bLength = $b->length();
+        $aLength = grapheme_strlen($a);
+        $bLength = grapheme_strlen($b);
 
         $distance = max($aLength, $bLength) / 2 - 1;
 
@@ -46,7 +30,7 @@ final class Jaro implements AlgorithmInterface
                     continue;
                 }
 
-                if ($aAsciiString[$i] !== $bAsciiString[$k]) {
+                if ($a[$i] !== $b[$k]) {
                     continue;
                 }
 
@@ -74,13 +58,19 @@ final class Jaro implements AlgorithmInterface
                 $k++;
             }
 
-            if ($aAsciiString[$i] !== $bAsciiString[$k]) {
+            if ($a[$i] !== $b[$k]) {
                 $transpositions++;
             }
 
             $k++;
         }
 
-        return (($matches / $aLength) + ($matches / $bLength) + (($matches - $transpositions / 2) / $matches)) / 3;
+        $similarCost = array_sum([
+            $matches / $aLength,
+            $matches / $bLength,
+            ($matches - $transpositions / 2) / $matches,
+        ]);
+
+        return $similarCost / 3;
     }
 }

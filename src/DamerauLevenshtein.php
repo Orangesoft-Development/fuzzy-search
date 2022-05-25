@@ -4,33 +4,20 @@ declare(strict_types=1);
 
 namespace Orangesoft\FuzzySearch;
 
-use function Symfony\Component\String\u;
-
 final class DamerauLevenshtein implements AlgorithmInterface
 {
-    /**
-     * @param int $insertionCost
-     * @param int $replacementCost
-     * @param int $deletionCost
-     * @param int $transpositionCost
-     * @param string[]|\Transliterator[]|\Closure[] $asciiUnicodeRules
-     */
     public function __construct(
         private int $insertionCost = 1,
         private int $replacementCost = 1,
         private int $deletionCost = 1,
         private int $transpositionCost = 1,
-        private array $asciiUnicodeRules = [],
     ) {
     }
 
     public function similar(string $a, string $b): float
     {
-        $a = u($a)->ascii($this->asciiUnicodeRules);
-        $b = u($b)->ascii($this->asciiUnicodeRules);
-
-        $aLength = $a->length();
-        $bLength = $b->length();
+        $aLength = grapheme_strlen($a);
+        $bLength = grapheme_strlen($b);
 
         $matrix = [];
 
@@ -43,10 +30,10 @@ final class DamerauLevenshtein implements AlgorithmInterface
         }
 
         for ($i = 1; $i <= $aLength; $i++) {
-            $aChar = $a->slice($i - 1, 1)->toString();
+            $aChar = grapheme_substr($a, $i - 1, 1);
 
             for ($j = 1; $j <= $bLength; $j++) {
-                $bChar = $b->slice($j - 1, 1)->toString();
+                $bChar = grapheme_substr($b, $j - 1, 1);
 
                 if (0 === strcmp($aChar, $bChar)) {
                     $replacementCost = 0;
@@ -63,8 +50,8 @@ final class DamerauLevenshtein implements AlgorithmInterface
                 $matrix[$i][$j] = min($insertionCost, $replacementCost, $deletionCost);
 
                 if (1 < $i && 1 < $j) {
-                    $aNextChar = $a->slice($i - 2, 1)->toString();
-                    $bNextChar = $b->slice($j - 2, 1)->toString();
+                    $aNextChar = grapheme_substr($a, $i - 2, 1);
+                    $bNextChar = grapheme_substr($b, $j - 2, 1);
 
                     if (0 === strcmp($aChar, $bNextChar) && 0 === strcmp($aNextChar, $bChar)) {
                         $matrix[$i][$j] = min($matrix[$i][$j], $matrix[$i - 2][$j - 2] + $transpositionCost);
