@@ -35,9 +35,10 @@ final class FuzzySearch implements FuzzySearchInterface
 
         $suggestions = [];
 
+        $a = u($needle)->ascii($this->rules)->toString();
+
         foreach ($haystack as $data) {
-            $a = $this->ascii($needle);
-            $b = $this->ascii($accessor($data));
+            $b = u($accessor($data))->ascii($this->rules)->toString();
 
             $similarity = $this->algorithm->similar($a, $b);
 
@@ -53,10 +54,5 @@ final class FuzzySearch implements FuzzySearchInterface
         }
 
         return $suggestions;
-    }
-
-    private function ascii(string $value): string
-    {
-        return u($value)->ascii($this->rules)->toString();
     }
 }
